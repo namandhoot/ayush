@@ -1,0 +1,21 @@
+from github import Github
+
+# Authenticate with GitHub
+g = Github("your_github_token")
+
+# Specify the repository and file details
+repo = g.get_repo("your_username/your_repository")
+file_path = "path/to/your/file.txt"
+commit_message = "Adding a new file via Python"
+file_content = "This is the content of the new file."
+
+# Check if the file already exists
+try:
+    existing_file = repo.get_contents(file_path)
+    # If file exists, update it
+    repo.update_file(file_path, commit_message, file_content, existing_file.sha)
+    print("File updated successfully.")
+except:
+    # If file doesn't exist, create it
+    repo.create_file(file_path, commit_message, file_content)
+    print("File created successfully.")
